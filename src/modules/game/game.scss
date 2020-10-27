@@ -1,0 +1,32 @@
+.game {
+    height: 340px;
+    width: 449px;
+    background: #34393D;
+    border: 3px solid #3D4249;
+    box-shadow: inset 20px 30px 60px 1px #25282D;
+    border-radius: 20px;
+    border: none;
+    margin: 0 auto;
+    &_wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    &_item {
+        &:first-child {
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            height: 164px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        &:last-child{
+            display: flex;
+            flex-direction: row;
+            height: 175px;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
