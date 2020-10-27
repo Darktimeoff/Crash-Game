@@ -1,0 +1,46 @@
+.button {
+    height: 83px;
+    width: 83px;
+    border: none;
+    padding: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    border-radius: 100%;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: inset 4px 4px 20px rgba(255, 255, 255, 0.12),
+        inset -4px -4px 20px rgba(0, 0, 0, 0.25);
+    &:disabled {
+        opacity: 0.1;
+        cursor: not-allowed;
+    }
+}
+.button_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    height: 93px;
+    width: 93px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3),
+        -5px -5px 20px rgba(255, 255, 255, 0.25),
+        inset -4px -4px 10px rgba(255, 255, 255, 0.12),
+        inset 4px 4px 10px rgba(0, 0, 0, 0.25);
+}
+.default {
+    &_wrapper {
+        background: #292C33;
+    }
+    &_button {
+        background: #292C33;
+    }
+}
+.danger {
+    &_button {
+        background: #882424;
+    }
+    &_wrapper {
+        background: #882424;
+    }
+}
