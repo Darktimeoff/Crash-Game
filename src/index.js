@@ -15,8 +15,6 @@ const app = (
    </Provider>
 )
 
-export const ws = new WebSocket('ws://localhost:3000');
-
 
 ReactDOM.render(
   app,

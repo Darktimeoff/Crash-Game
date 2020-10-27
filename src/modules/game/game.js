@@ -5,7 +5,8 @@ import { Input } from './../../components/input/input';
 import { Button } from './../../components/Button/Button';
 import { Line } from './../../components/line/line';
 import { connect } from 'react-redux';
-import { ws } from '../../index';
+import { parseJSON } from '../../utils';
+import WebSocket from 'isomorphic-ws';
 
 
 
@@ -21,7 +22,24 @@ export const Game = (props) => {
     const idRation = useRef(undefined);
     const [bet, setBet] = useState('');
     const [isBet, setIsBet] = useState(false);
+    const [ws, setWs] = useState(new WebSocket('ws://localhost:3030'));
 
+    useEffect(() => {
+        console.log(ws)
+        ws.onopen = () => {
+            console.log('connected');
+        }
+        ws.onmessage = response => {
+            const message = parseJSON(response.data);
+            if(message.new_balance) setBalance(message.new_balance.balance);
+            if(message.round_countdown) setTimer(message.round_countdown.countdown);
+            console.log(message)
+        }
+        ws.onclose = () => {
+            console.log('disconnected');
+            setWs(new WebSocket('ws://localhost:3000'))
+        }
+    }, []);
     const inputHandler = ({target}) => {
         if(Number(target.value) >= balance) {
             setBet(balance);
@@ -37,6 +55,9 @@ export const Game = (props) => {
             setUserRation(ration);
         }
         setIsBet(true);
+        ws.send(JSON.stringify({make_bet: {
+            value: bet
+        }}));
         clearTimeout(idTimer.current);
     }
 
@@ -52,9 +73,9 @@ export const Game = (props) => {
             return;
         }
 
-        idTimer.current = setTimeout(() => {
+        /* idTimer.current = setTimeout(() => {
             setTimer(prevState => prevState - 1)
-        }, 1000)
+        }, 1000) */
     }, [timer])
 
     useEffect(() => {
@@ -114,10 +135,3 @@ function mapStateToProps(state) {
         
     }
 }
-
-function mapDispatchToProps(dispatch) {
-    return {
-       
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Game)
