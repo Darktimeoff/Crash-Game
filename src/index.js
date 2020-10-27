@@ -4,11 +4,15 @@ import { Provider } from 'react-redux';
 import './index.scss';
 import { store } from './store';
 import { Game } from './modules/game/game';
+import {BrowserRouter} from 'react-router-dom';
+import { Routes } from './routes';
 
 const app = (
   <Provider store={store}>
-    <Game />
-  </Provider>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
+   </Provider>
 )
 
 ReactDOM.render(
