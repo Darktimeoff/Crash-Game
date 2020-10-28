@@ -4,6 +4,8 @@ body {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background: black;
 }
 * {
   box-sizing: border-box;
@@ -12,4 +14,9 @@ body {
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace;
+}
+#root{
+  display: flex;
+  align-items: center;
+  height: 85vh;
 }
