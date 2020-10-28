@@ -8,25 +8,24 @@ let ration = 1.0;
 let rationEnd = getRandomEndRation(1, 20);
 let rationIds = [];
 let timerId = undefined;
+let timersId = [];
 
 wss.on('connection', ws => {
     ws.on('message', data => {
         const clientData = JSON.parse(data);
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
-                console.log('enter'); 
                 if(clientData.make_bet) {
                     bet = clientData.make_bet.value;
+
                     rationIds.push(setInterval(rationGenerator, 40));
-                    console.log(bet)
+
+                   clearIntervals(timersId);
                 } 
                 if(clientData.take) {
-                    rationIds.forEach(id => {
-                        clearInterval(id);
-                    });
 
-                    rationGenerator = () => {};
-            
+                    clearIntervals(rationIds);
+
                     if((ration - 0.1) < rationEnd) {
                         const json = JSON.stringify({
                             new_balance: {
@@ -60,9 +59,13 @@ wss.on('connection', ws => {
                     setTimeout(() => {
                         bet = undefined;
                         rationIds = [];
-                        timer = 5
+                        timer = 5;
+                        ration = 1.0;
                         rationEnd = 4.0;
                         timerId = undefined;
+                        timersId= [];
+                        timerId = setInterval(initTimer, 1000);
+                        timersId.push(timerId);
                     }, 5000);
                 }
             }
@@ -108,6 +111,12 @@ function rationGenerator() {
     });
 
     ration = Number(+ration + 0.1).toFixed(1);
+}
+
+function clearIntervals(ids) {
+    ids.forEach(id => {
+        clearInterval(id);
+    });
 }
 
 function getRandomEndRation(min, max) {
