@@ -20,16 +20,17 @@ wss.on('connection', ws => {
 
                     rationIds.push(setInterval(rationGenerator, 40));
 
-                   clearIntervals(timersId);
+                    clearIntervals(timersId);
                 } 
                 if(clientData.take) {
 
                     clearIntervals(rationIds);
 
                     if((ration - 0.1) < rationEnd) {
+                        balance = Math.round(balance + ((ration - 0.1) * bet));
                         const json = JSON.stringify({
                             new_balance: {
-                                balance: Math.round(balance + ((ration - 0.1) * bet))
+                                balance
                             },
                             user_ration: {
                                 ration: +(ration - 0.1).toFixed(1)
@@ -42,10 +43,11 @@ wss.on('connection', ws => {
                             client.send(json);
                         });
                     } else {
+                        balance -= bet;
                         wss.clients.forEach(client => {
                             client.send(JSON.stringify({
                                 new_balance: {
-                                    balance: balance - bet
+                                    balance
                                 },
                                 user_ration: {
                                     ration: +(ration - 0.1).toFixed(1)
