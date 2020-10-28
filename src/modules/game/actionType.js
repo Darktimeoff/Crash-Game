@@ -1,3 +1,10 @@
-export const START_TIMER = 'START_TIMER';
-export const TIMER_FINISH = 'TIMER_FINISH';
-export const RESET_TIMER = 'RESET_TIMER';
+export const CHANGE_TIMER = 'CHANGE_TIMER';
+export const CHANGE_BALANCE = 'CHANGE_BALANCE';
+export const CHANGE_IS_FINISH_TIMER = 'CHANGE_IS_FINISH_TIMER';
+export const CHANGE_BET = 'CHANGE_BET';
+export const CHANGE_IS_BET = 'CHANGE_IS_BET';
+export const CHANGE_IS_TAKE = 'CHANGE_IS_TAKE';
+export const CHANGE_END_RATION = 'CHANGE_END_RATION';
+export const CHANGE_RATION = 'CHANGE_RATION';
+export const CHANGE_USER_RATION = 'CHANGE_USER_RATION';
+export const RESET = 'RESET';

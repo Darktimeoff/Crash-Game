@@ -3,17 +3,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.scss';
 import { store } from './store';
-import { Game } from './modules/game/game';
-import {BrowserRouter} from 'react-router-dom';
-import { Routes } from './routes';
+import WebSocket from 'isomorphic-ws';
+import Game from './modules/game/game';
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
-   </Provider>
+    <Game />
+  </Provider>
 )
+
+export const ws = new WebSocket('ws://localhost:3030');
 
 
 ReactDOM.render(

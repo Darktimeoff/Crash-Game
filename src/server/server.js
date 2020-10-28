@@ -5,21 +5,20 @@ let balance = 120;
 let bet = undefined;
 let timer = 5
 let ration = 1.0;
-let rationEnd = 3;
+let rationEnd = getRandomEndRation(1, 20);
 let rationIds = [];
 let timerId = undefined;
 
 wss.on('connection', ws => {
-    if(bet) {
-        rationIds.push(setInterval(rationGenerator, 40));
-    }
-    
     ws.on('message', data => {
         const clientData = JSON.parse(data);
         wss.clients.forEach(client => {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
+            if (client.readyState === WebSocket.OPEN) {
+                console.log('enter'); 
                 if(clientData.make_bet) {
-                    bet = clientData.make_bet.value;  
+                    bet = clientData.make_bet.value;
+                    rationIds.push(setInterval(rationGenerator, 40));
+                    console.log(bet)
                 } 
                 if(clientData.take) {
                     rationIds.forEach(id => {
@@ -34,10 +33,10 @@ wss.on('connection', ws => {
                                 balance: Math.round(balance + ((ration - 0.1) * bet))
                             },
                             user_ration: {
-                                ration: ration - 0.1
+                                ration: +(ration - 0.1).toFixed(1)
                             }, 
                             end_ration: {
-                                ration: rationEnd
+                                ration: rationEnd.toFixed(1)
                             }
                         });
                         wss.clients.forEach(client => {
@@ -50,10 +49,10 @@ wss.on('connection', ws => {
                                     balance: balance - bet
                                 },
                                 user_ration: {
-                                    ration: ration - 0.1
+                                    ration: +(ration - 0.1).toFixed(1)
                                 },
                                 end_ration: {
-                                    ration: rationEnd
+                                    ration: rationEnd.toFixed(1)
                                 }
                             }));
                         });
@@ -88,7 +87,7 @@ function initTimer() {
 
     wss.clients.forEach(client => {
         client.send(json);
-        /* console.log('Sent: ' + json); */
+        console.log('Sent: ' + json);
     });
 
     timer -= 1
@@ -103,15 +102,12 @@ function rationGenerator() {
             multiplier: ration
         }
     });
-
     wss.clients.forEach(client => {
         client.send(json);
-        /* console.log('sent' + json); */
+        console.log('sent' + json); 
     });
 
     ration = Number(+ration + 0.1).toFixed(1);
-
-    clearInterval(rationIds[rationIds.length - 1]);
 }
 
 function getRandomEndRation(min, max) {
