@@ -51,7 +51,7 @@ const Game = (props) => {
         ws.onclose = () => {
             console.log('disconnected');
         }
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         if(props.timer > 0) {
@@ -60,7 +60,7 @@ const Game = (props) => {
         }
         props.setIsFinishTimer(true);
         props.setBet('')
-    }, [props.timer]);
+    }, [props.timer, props]);
 
     return (
         <div className='game'>
@@ -78,8 +78,8 @@ const Game = (props) => {
                         <Text>BALANCE</Text>
                         <Text style={{fontWeight: 700, textAlign: 'left', fontSize: 32, marginTop: 15}}>{'$'+props.balance}</Text>
                     </div>
-                    <Input placeholder='BET VALUE' onChange={props.inputHandler} value={props.bet} disabled={props.isFinishTimer || props.isBet}/>
-                    <Button onClick={props.buttonClickHandler} color={props.isBet && !props.isTake ? 'danger' : 'default'} disabled={props.isFinishTimer}>{props.isBet && !props.isTake ? 'Take' : 'PLACE A BET'}</Button>
+                    <Input placeholder='BET VALUE' onChange={props.inputHandler} value={props.bet} disabled={props.isFinishTimer || props.isBet || props.isTake}/>
+                    <Button onClick={props.buttonClickHandler} color={props.isBet && !props.isTake ? 'danger' : 'default'} disabled={props.isFinishTimer || props.isTake}>{props.isBet && !props.isTake ? 'Take' : 'PLACE A BET'}</Button>
                 </div>
             </div>
         </div>
