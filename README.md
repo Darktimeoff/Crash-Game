@@ -1,7 +1,8 @@
 # Install project
 
-git clone https://github.com/Darktimeoff/Crash-Game.git
-cd Crash-Game
+`git clone https://github.com/Darktimeoff/Crash-Game.git` \
+`cd Crash-Game`
+`npm i`
 
 ## Available Scripts
 
@@ -20,4 +21,4 @@ You will also see any lint errors in the console.
 Launches server on the port [http://localhost:3030]
 
 ### Procedure for starting
-Firstly, in first terminal write `node src/server/server`, after this in another terminal write  write `npm run start`
+When the npm packages are installed, in first terminal write `node src/server/server`, after this in another terminal write `npm run start`
