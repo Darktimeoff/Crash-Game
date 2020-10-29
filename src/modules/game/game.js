@@ -15,7 +15,8 @@ import { changeBalance,
     changeIsTake, 
     changeRation, 
     reset, buttonClickHandler, 
-    inputHandler 
+    inputHandler, 
+    changeIsWin
 } from './actionCreators';
 import { ws } from '../..';
 import { InitTimer } from './../../components/initTimer/initTimer';
@@ -25,7 +26,6 @@ import { CrashGame } from './../../components/crashGame/crashGame';
 
 
 const Game = (props) => {
-    const userWin = props.userRation < props.endRation;
     useEffect(() => {
         ws.onopen = () => {
             console.log('connected');
@@ -33,10 +33,9 @@ const Game = (props) => {
         ws.onmessage = response => {
             const message = JSON.parse(response.data);
             if(message.new_balance && message.user_ration) {
-                console.log(message)
                 props.setBalance(message.new_balance.balance);
                 props.setUserRation(message.user_ration.ration);
-                props.setEndRation(message.end_ration.ration);
+                if(message.user_win) props.setIsWin();
                 setTimeout(() => {
                     props.setReset();
                 }, 5000);
@@ -45,6 +44,7 @@ const Game = (props) => {
             if(message.round_countdown && message.new_balance) {
                 props.setTimer(message.round_countdown.countdown);
                 props.setBalance(message.new_balance.balance);
+                props.setEndRation(message.end_ration.ration);
             }
             if(message.multiplier_update) props.setRation(message.multiplier_update.multiplier)
         }
@@ -52,6 +52,13 @@ const Game = (props) => {
             console.log('disconnected');
         }
     }, [props]);
+
+    useEffect(() => {
+        if(!props.isCrash) return;
+        props.setIsTake(true);
+        props.setIsBet(false);
+        ws.send(JSON.stringify({take: {}}));
+    }, [props.isCrash])
 
     useEffect(() => {
         if(props.timer > 0) {
@@ -68,8 +75,8 @@ const Game = (props) => {
                 <div className='game_item'>
                     {props.isBet || props.isTake ? null : <InitTimer timer={props.timer} />}
                     {props.isBet && !props.isTake ? <Text style={{marginTop:20}}color='ration'>{'x'+props.ration}</Text> : null}
-                    {(props.isTake && userWin) &&  <WinGame bet={props.bet} endRation={props.endRation} userRation={props.userRation}/>}
-                    {(props.isTake && !userWin) && <CrashGame ration={props.ration} />}
+                    {(props.isTake && props.isWin) &&  <WinGame bet={props.bet} endRation={props.endRation} userRation={props.userRation}/>}
+                    {(props.isTake && props.isCrash) && <CrashGame ration={props.endRation} />}
                   
                 </div>
                 <Line />
@@ -102,6 +109,7 @@ function mapDispatchToProps(dispatch) {
         setEndRation: (endRation) => dispatch(changeEndRation({endRation})),
         setRation: (ration) => dispatch(changeRation({ration})),
         setUserRation: (userRation) => dispatch(changeUserRation({userRation})),
+        setIsWin: (isWin) => dispatch(changeIsWin({isWin})),
         setReset: () => dispatch(reset()),
         inputHandler,
         buttonClickHandler

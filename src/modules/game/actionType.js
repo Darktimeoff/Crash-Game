@@ -7,4 +7,5 @@ export const CHANGE_IS_TAKE = 'CHANGE_IS_TAKE';
 export const CHANGE_END_RATION = 'CHANGE_END_RATION';
 export const CHANGE_RATION = 'CHANGE_RATION';
 export const CHANGE_USER_RATION = 'CHANGE_USER_RATION';
+export const CHANGE_IS_WIN = 'CHANGE_IS_WIN';
 export const RESET = 'RESET';

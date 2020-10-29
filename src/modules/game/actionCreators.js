@@ -10,6 +10,7 @@ import {
     CHANGE_END_RATION,
     CHANGE_RATION,
     CHANGE_USER_RATION,
+    CHANGE_IS_WIN,
     RESET
 } from './actionType';
 
@@ -73,6 +74,11 @@ export function changeUserRation(payload) {
         payload
     }
 }
+export function changeIsWin() {
+    return {
+        type: CHANGE_IS_WIN,
+    }
+}
 
 export function reset() {
     return { 
@@ -89,7 +95,6 @@ export const buttonClickHandler = () => {
         dispatch(changeIsBet({isBet: false}));
         dispatch(changeUserRation({userRation: state.ration}));
         ws.send(JSON.stringify({take: {}}));
-        console.log('take', state.isTake, state.isBet)
         return;
     }
 

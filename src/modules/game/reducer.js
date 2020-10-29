@@ -8,6 +8,7 @@ import {
     CHANGE_END_RATION,
     CHANGE_RATION,
     CHANGE_USER_RATION,
+    CHANGE_IS_WIN,
     RESET
 } from './actionType';
 const initialState = {
@@ -19,7 +20,9 @@ const initialState = {
     endRation: 0,
     isTake: false,
     bet: '',
-    isBet: false
+    isBet: false,
+    isCrash: false,
+    isWin: false
 } 
 
 export const gameReducer = (state=initialState, {type, payload}) => {
@@ -62,12 +65,18 @@ export const gameReducer = (state=initialState, {type, payload}) => {
         case CHANGE_RATION: 
             return {
                 ...state,
-                ration: payload.ration
+                ration: payload.ration,
+                isCrash: payload.ration > state.endRation
             }
         case CHANGE_USER_RATION: 
             return {
                 ...state,
                 userRation: payload.userRation
+            }
+        case CHANGE_IS_WIN: 
+            return {
+                ...state,
+                isWin: true
             }
         case RESET:
             return {

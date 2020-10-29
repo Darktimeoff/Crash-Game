@@ -35,8 +35,8 @@ wss.on('connection', ws => {
                             user_ration: {
                                 ration: +(ration - 0.1).toFixed(1)
                             }, 
-                            end_ration: {
-                                ration: rationEnd.toFixed(1)
+                            user_win: {
+
                             }
                         });
                         wss.clients.forEach(client => {
@@ -51,9 +51,6 @@ wss.on('connection', ws => {
                                 },
                                 user_ration: {
                                     ration: +(ration - 0.1).toFixed(1)
-                                },
-                                end_ration: {
-                                    ration: rationEnd.toFixed(1)
                                 }
                             }));
                         });
@@ -63,7 +60,7 @@ wss.on('connection', ws => {
                         rationIds = [];
                         timer = 5;
                         ration = 1.0;
-                        rationEnd = 4.0;
+                        rationEnd = getRandomEndRation(1, 20);
                         timerId = undefined;
                         timersId= [];
                         timerId = setInterval(initTimer, 1000);
@@ -87,6 +84,9 @@ function initTimer() {
         },
         round_countdown: {
             countdown: timer
+        }, 
+        end_ration: {
+            ration: Number(rationEnd.toFixed(1))
         }
     });
 
@@ -112,7 +112,7 @@ function rationGenerator() {
         console.log('sent' + json); 
     });
 
-    ration = Number(+ration + 0.1).toFixed(1);
+    ration = Number((ration + 0.1).toFixed(1))
 }
 
 function clearIntervals(ids) {
