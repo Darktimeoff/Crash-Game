@@ -1,9 +1,10 @@
+@import './../../components/variables.scss';
 .game {
     height: 340px;
     width: 449px;
-    background: #34393D;
-    border: 3px solid #3D4249;
-    box-shadow: inset 20px 30px 60px 1px #25282D;
+    background: $game_bg;
+    border: 3px solid $game_border;
+    box-shadow: inset 20px 30px 60px 1px $game_shadow;
     border-radius: 20px;
     border: none;
     margin: 0 auto;

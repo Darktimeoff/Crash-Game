@@ -2,7 +2,7 @@
 
 `git clone https://github.com/Darktimeoff/Crash-Game.git` \
 `cd Crash-Game`
-`npm i`
+`npm ci`
 
 ## Available Scripts
 
